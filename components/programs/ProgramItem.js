@@ -2,15 +2,28 @@ import Card from "../ui/Card";
 import classes from "./ProgramItem.module.css";
 
 function ProgramItem(props) {
+  const listLectures = props.lectures.map((element) => {
+    return (
+      <ul type="disc">
+        <li
+          style={{
+            fontWeight: "bold",
+            color: "red",
+          }}
+        >
+          {element.lectureName}
+        </li>
+        <li>{element.duration}</li>
+      </ul>
+    );
+  });
   return (
     <li className={classes.item}>
       <Card>
-        <div className={classes.image}>
-          <img src={props.image} alt={props.title} />
-        </div>
+        <div className={classes.list}>{listLectures}</div>
         <div className={classes.content}>
           <h3>{props.title}</h3>
-          <address>{props.address}</address>
+          <h3>{props.totalTime}</h3>
         </div>
         <div className={classes.actions}>
           <button>Show Details</button>

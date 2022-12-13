@@ -28,7 +28,7 @@ const DUMMY_PROGRAMS = [
 ];
 
 function HomePage() {
-  return <ProgramList>{DUMMY_PROGRAMS}</ProgramList>;
+  return <ProgramList programs={DUMMY_PROGRAMS} />;
 }
 
 export default HomePage;

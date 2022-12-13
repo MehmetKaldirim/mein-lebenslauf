@@ -8,8 +8,8 @@ function ProgramList(props) {
         <ProgramItem
           key={program.id}
           id={program.id}
-          lectures={program.lectures}
           title={program.title}
+          lectures={program.lectures}
           totalTime={program.totalTime}
         />
       ))}
