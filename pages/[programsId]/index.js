@@ -1,4 +1,4 @@
-// our-domain/news
+// our-domain/programs
 import Link from "next/link";
 
 import { Fragment } from "react";

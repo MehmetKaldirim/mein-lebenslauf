@@ -10,9 +10,9 @@ function MeetupDetail(props) {
             color: "red",
           }}
         >
-          {element.Title}
+          {element.lectureName}
         </li>
-        <li>{element.Hours}</li>
+        <li>{element.duration}</li>
       </ul>
     );
   });
