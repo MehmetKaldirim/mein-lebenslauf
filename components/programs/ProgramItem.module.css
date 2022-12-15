@@ -2,6 +2,29 @@
   margin: 1rem 0;
 }
 
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.table th {
+  padding: 12px 12px;
+  text-align: center;
+  font-size: 16px;
+  background-color: #77002e;
+  color: white;
+}
+.table td {
+  padding: 12px 12px;
+  text-align: center;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+}
+
 .list {
   font-size: 1.25rem;
   color: #2c292b;
