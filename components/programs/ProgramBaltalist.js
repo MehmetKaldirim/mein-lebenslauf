@@ -19,9 +19,9 @@ function MeetupDetail(props) {
 
   return (
     <section className={classes.detail}>
-      <div>{listLectures}</div>
+      
       <h1>{props.title}</h1>
-      <address>{props.address}</address>
+      <div>{listLectures}</div>
       <p>{props.description}</p>
     </section>
   );
