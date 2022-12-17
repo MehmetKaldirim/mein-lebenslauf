@@ -39,7 +39,7 @@ export async function getStaticProps() {
     props: {
       programs: DUMMY_PROGRAMS,
     },
-    revalidate: 1,
+    revalidate: 10,
   };
 }
 

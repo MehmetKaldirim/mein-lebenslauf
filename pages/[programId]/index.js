@@ -46,4 +46,39 @@ function ProgramsDetail() {
   );
 }
 
+export async function getStaticPaths() {
+  //fallback false means all id covers and true some
+  return {
+    fallback: false,
+    paths: [
+      {
+        params: {
+          programId: "p1",
+        },
+      },
+      {
+        params: {
+          programId: "p2",
+        },
+      },
+    ],
+  };
+}
+
+export async function getStaticProps(context) {
+  // fetch data for a single program detail
+  const programId = context.params.programId;
+  console.log("is this your id  = " + programId);
+  return {
+    props: {
+      ProgramData: {
+        id: programId,
+        title: "ca va",
+        duration: 15,
+        completedTime: 12,
+        description: "sanane",
+      },
+    },
+  };
+}
 export default ProgramsDetail;
