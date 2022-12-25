@@ -13,18 +13,20 @@ function ProgramItem(props) {
     <li className={classes.item}>
       <Card>
         <table className={classes.table}>
-          <tr>
-            <th>Title</th>
-            <th>Duration</th>
-            <th>Completed Time</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td>{props.title}</td>
-            <td>{props.duration}</td>
-            <td>{props.completedTime}</td>
-            <td>{props.description}</td>
-          </tr>
+          <tbody>
+            <tr>
+              <th>Title</th>
+              <th>Duration</th>
+              <th>Completed Time</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>{props.title}</td>
+              <td>{props.duration}</td>
+              <td>{props.completedTime}</td>
+              <td>{props.description}</td>
+            </tr>
+          </tbody>
         </table>
         <div className={classes.actions}>
           <button onClick={showDetailsHandler}>Show Details</button>
