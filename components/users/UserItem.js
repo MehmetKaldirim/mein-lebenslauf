@@ -15,13 +15,13 @@ function UserItem(props) {
         <table className={classes.table}>
           <tbody>
             <tr>
-              <th>Name</th>
-              <th>Lastname</th>
+              <th>First Name</th>
+              <th>Last Name</th>
               <th>Email</th>
             </tr>
             <tr>
-              <td>{props.name}</td>
-              <td>{props.lastname}</td>
+              <td>{props.firstName}</td>
+              <td>{props.lastName}</td>
               <td>{props.email}</td>
             </tr>
           </tbody>

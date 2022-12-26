@@ -8,15 +8,15 @@ import UserDetail from "../../../components/users/UserDetail";
 const USER_PROGRAMS = [
   {
     id: "u1",
-    name: "Metho",
-    lastname: "Kaldi",
+    firstName: "Metho",
+    lastName: "Kaldi",
     email: "methoKaldi@gmail.com",
   },
   {
     id: "u2",
-    name: "Atilla",
-    lastname: "Kiyak",
-    email: "atillaKiyatYasar@gmail.com",
+    firstName: "Atilla",
+    lastName: "Kiyak",
+    email: "atillaKiyatCokYasar@gmail.com",
   },
 ];
 
@@ -40,8 +40,8 @@ function UsersDetail() {
   return (
     <UserDetail
       id="u1"
-      name="Metho"
-      lastname="Kaldi"
+      firstName="Metho"
+      lastName="Kaldi"
       email="methoKaldi@gmail.com"
     />
   );
@@ -74,8 +74,8 @@ export async function getStaticProps(context) {
     props: {
       ProgramData: {
         id: userId,
-        name: "Metho",
-        lastname: "Kaldi",
+        firstName: "Metho",
+        lastName: "Kaldi",
         email: "methoKaldi@gmail.com",
       },
     },

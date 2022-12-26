@@ -5,14 +5,14 @@ import axios from "axios";
 const USER_PROGRAMS = [
   {
     id: "u1",
-    name: "Metho",
-    lastname: "Kaldi",
+    firstName: "Metho",
+    lastName: "Kaldi",
     email: "methoKaldi@gmail.com",
   },
   {
     id: "u2",
-    name: "Atilla",
-    lastname: "Kiyak",
+    firstName: "Atilla",
+    lastName: "Kiyak",
     email: "atillaKiyatYasar@gmail.com",
   },
 ];
@@ -42,15 +42,15 @@ function UserPage(props) {
   users.forEach((el) => {
     let object = {
       id: el.id,
-      name: el.firstName,
-      lastname: el.lastName,
+      firstName: el.firstName,
+      lastName: el.lastName,
       email: el.email,
     };
     fetchUsers.push(object);
   });
 
   console.log(fetchUsers);
-  return <UserList programs={fetchUsers} />;
+  return <UserList users={fetchUsers} />;
 }
 
 export async function getStaticProps() {
@@ -60,7 +60,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      programs: USER_PROGRAMS,
+      users: USER_PROGRAMS,
     },
     revalidate: 10,
   };

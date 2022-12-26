@@ -7,14 +7,14 @@ function ProgramDetail(props) {
         <tbody>
           <tr>
             <th>Id</th>
-            <th>Name</th>
+            <th>First Name</th>
             <th>Lastname</th>
             <th>email</th>
           </tr>
           <tr>
             <td>{props.id}</td>
-            <td>{props.name}</td>
-            <td>{props.lastname}</td>
+            <td>{props.firstName}</td>
+            <td>{props.lastName}</td>
             <td>{props.email}</td>
           </tr>
         </tbody>
