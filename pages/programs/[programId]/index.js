@@ -2,7 +2,7 @@
 import Link from "next/link";
 
 import { Fragment } from "react";
-import ProgramDetail from "../../components/programs/ProgramDetail";
+import ProgramDetail from "../../../components/programs/ProgramDetail";
 
 const DUMMY_PROGRAMS = [
   {

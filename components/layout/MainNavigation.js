@@ -9,10 +9,16 @@ function MainNavigation() {
       <nav>
         <ul>
           <li>
+            <Link href="/users">All Users</Link>
+          </li>
+          <li>
             <Link href="/">All Programs</Link>
           </li>
           <li>
             <Link href="/newProgram">Add New Program</Link>
+          </li>
+          <li>
+            <Link href="/newUser">Add New User</Link>
           </li>
         </ul>
       </nav>
