@@ -1,15 +1,15 @@
 import UserItem from "./UserItem";
 import classes from "./UserList.module.css";
 
-function ProgramList(props) {
+function UserList(props) {
   return (
     <ul className={classes.list}>
       {props.users.map((user) => (
         <UserItem
           key={user.id}
           id={user.id}
-          firstName={user.name}
-          lastName={user.lastname}
+          firstName={user.firstName}
+          lastName={user.lastName}
           email={user.email}
         />
       ))}
@@ -17,4 +17,4 @@ function ProgramList(props) {
   );
 }
 
-export default ProgramList;
+export default UserList;

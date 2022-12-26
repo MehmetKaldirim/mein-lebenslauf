@@ -15,10 +15,10 @@ function MainNavigation() {
             <Link href="/programs">All Programs</Link>
           </li>
           <li>
-            <Link href="/newProgram">Add New Program</Link>
+            <Link href="/programs/newProgram">Add New Program</Link>
           </li>
           <li>
-            <Link href="/newUser">Add New User</Link>
+            <Link href="/users/newUser">Add New User</Link>
           </li>
         </ul>
       </nav>

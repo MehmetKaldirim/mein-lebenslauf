@@ -1,7 +1,7 @@
 import UserList from "../../components/users/UserList";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import { useSelector } from "react-redux";
 const USER_PROGRAMS = [
   {
     id: "u1",
@@ -18,6 +18,9 @@ const USER_PROGRAMS = [
 ];
 
 function UserPage(props) {
+  const userFromStore = useSelector((store) => store.users);
+  console.log("here store users DONT YOU HERE OR SEE ME");
+  console.log(userFromStore);
   const [users, setUsers] = useState([]);
   let fetchUsers = [];
 
@@ -50,7 +53,7 @@ function UserPage(props) {
   });
 
   console.log(fetchUsers);
-  return <UserList users={fetchUsers} />;
+  return <UserList users={userFromStore} />;
 }
 
 export async function getStaticProps() {

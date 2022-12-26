@@ -6,7 +6,10 @@ function UserItem(props) {
   const router = useRouter();
   function showDetailsHandler() {
     //to navigate programatically
-    router.push("/users" + user.id);
+    router.push("/users/" + user.id);
+  }
+  function editUserHandler() {
+    router.push("/users/" + [user.id]);
   }
 
   return (
@@ -26,6 +29,9 @@ function UserItem(props) {
             </tr>
           </tbody>
         </table>
+        <div className={classes.actions}>
+          <button onClick={editUserHandler}>Edit User</button>
+        </div>
         <div className={classes.actions}>
           <button onClick={showDetailsHandler}>Show Details</button>
         </div>

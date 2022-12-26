@@ -6,7 +6,7 @@ function ProgramItem(props) {
   const router = useRouter();
   function showDetailsHandler() {
     //to navigate programatically
-    router.push("/" + props.id);
+    router.push("/programs/" + props.id);
   }
 
   return (

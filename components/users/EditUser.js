@@ -1,13 +1,14 @@
 import { useRef } from "react";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 
 import Card from "../ui/Card";
 import classes from "./NewUserForm.module.css";
 import { addUser } from "./userSlice";
 
-function NewMeetupForm(props) {
+function EditUserForm(props) {
   const dispatch = useDispatch();
+  const params = useParams;
 
   const firstNameInputRef = useRef();
   const lastNameInputRef = useRef();
@@ -27,7 +28,7 @@ function NewMeetupForm(props) {
     };
     dispatch(
       addUser({
-        id: uuidv4(),
+        id: "3",
         firstName: enteredFirstName,
         lastName: enteredLastName,
         email: enteredEmail,
@@ -53,11 +54,11 @@ function NewMeetupForm(props) {
         </div>
 
         <div className={classes.actions}>
-          <button>Add User</button>
+          <button>Edit User</button>
         </div>
       </form>
     </Card>
   );
 }
 
-export default NewMeetupForm;
+export default EditUserForm;
