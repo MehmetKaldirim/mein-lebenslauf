@@ -12,7 +12,7 @@ function MainNavigation() {
             <Link href="/users">All Users</Link>
           </li>
           <li>
-            <Link href="/">All Programs</Link>
+            <Link href="/programs">All Programs</Link>
           </li>
           <li>
             <Link href="/newProgram">Add New Program</Link>

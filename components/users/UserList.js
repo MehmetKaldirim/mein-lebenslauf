@@ -10,7 +10,7 @@ function ProgramList(props) {
           id={user.id}
           name={user.name}
           lastname={user.lastname}
-          email={program.email}
+          email={user.email}
         />
       ))}
     </ul>

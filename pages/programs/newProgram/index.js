@@ -1,7 +1,7 @@
 // our-domain.com/newProgram
 import { useRouter } from "next/router";
 
-import NewProgramForm from "../../components/programs/NewProgramForm";
+import NewProgramForm from "../../../components/programs/NewProgramForm";
 
 function NewProgramPage() {
   const router = useRouter();

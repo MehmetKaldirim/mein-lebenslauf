@@ -1,4 +1,4 @@
-import ProgramList from "../components/programs/ProgramList";
+import ProgramList from "../../components/programs/ProgramList";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 

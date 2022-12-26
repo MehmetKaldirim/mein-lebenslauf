@@ -3,9 +3,9 @@ import { getNamedMiddlewareRegex } from "next/dist/shared/lib/router/utils/route
 import Link from "next/link";
 
 import { Fragment } from "react";
-import ProgramDetail from "../../components/users/UserDetail";
+import UserDetail from "../../../components/users/UserDetail";
 
-const DUMMY_PROGRAMS = [
+const USER_PROGRAMS = [
   {
     id: "u1",
     name: "Metho",
@@ -20,7 +20,7 @@ const DUMMY_PROGRAMS = [
   },
 ];
 
-function ProgramsDetail() {
+function UsersDetail() {
   /* const listLectures = DUMMY_PROGRAMS.lectures.map((element) => {
     return (
       <ul type="disc">
@@ -54,12 +54,12 @@ export async function getStaticPaths() {
     paths: [
       {
         params: {
-          programId: "u1",
+          userId: "u1",
         },
       },
       {
         params: {
-          programId: "u2",
+          userId: "u2",
         },
       },
     ],
@@ -68,18 +68,17 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(context) {
   // fetch data for a single program detail
-  const programId = context.params.programId;
-  console.log("is this your id  = " + programId);
+  const programId = context.params.userId;
+  console.log("is this your id  = " + userId);
   return {
     props: {
       ProgramData: {
-        id: programId,
-        title: "ca va",
-        duration: 15,
-        completedTime: 12,
-        description: "sanane",
+        id: userId,
+        name: "Metho",
+        lastname: "Kaldi",
+        email: "methoKaldi@gmail.com",
       },
     },
   };
 }
-export default ProgramsDetail;
+export default UsersDetail;
