@@ -41,7 +41,7 @@ function HomePage(props) {
   const fetchApi = async () => {
     try {
       const res = axios
-        .get("http://10.44.0.56:8081/programs/api/v3")
+        .get("http://172.20.10.2:8081/programs/api/v3")
         .then((res) => {
           const programList = res.data.data;
 
