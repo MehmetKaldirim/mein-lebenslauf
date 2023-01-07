@@ -1,4 +1,4 @@
-import ProgramList from "../components/programs/ProgramList";
+import ProgramList from "../../components/programs/ProgramList";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -15,8 +15,34 @@ const programReducer = (currentPrograms, action) => {
   }
 };
 
+const DUMMY_PROGRAMS = [
+  {
+    id: "p1",
+    title: "Java",
+    duration: 333,
+    lectures: [
+      { lectureName: "Arrays", duration: 3 },
+      { lectureName: "Encapsulation", duration: 1 },
+    ],
+    completedTime: 10,
+    description: "This is a second program!",
+  },
+  {
+    id: "p2",
+    title: "React",
+    duration: 77,
+    completedTime: 10,
+
+    lectures: [
+      { lectureName: "useEffect", duration: 3 },
+      { lectureName: "Redux", duration: 18 },
+    ],
+    description: "This is a second program!",
+  },
+];
+
 function HomePage(props) {
-  /* const [programs, setPrograms] = useState([]);
+  const [programs, setPrograms] = useState([]);
   let fetchPrograms = [];
   //const fetchPrograms = [];
   /*const fetchPrograms = async () => {
@@ -24,11 +50,11 @@ function HomePage(props) {
 
     console.log("here nothing " + JSON.stringify(res.data.data));
   };
-  console.log("here i fetched= " + programs);
+  console.log("here i fetched= " + programs);*/
   const fetchApi = async () => {
     try {
       const res = axios
-        .get("http://10.44.0.56:8081/programs/api/v3")
+        .get("http://172.20.10.2:8081/programs/api/v3")
         .then((res) => {
           const programList = res.data.data;
 
@@ -51,7 +77,7 @@ function HomePage(props) {
         fetchPrograms.push(program);
       }
 
-      console.log("here new object = " + fetchPrograms);
+      console.log("here new object = " + fetchPrograms);*/
     } catch (error) {
       console.log(error.message);
     }
@@ -87,60 +113,18 @@ function HomePage(props) {
   });
 
   console.log("that is object array");
-  console.log(fetchPrograms);*/
-  return <ProgramList programs={props.programs} />;
+  console.log(fetchPrograms);
+  return <ProgramList programs={fetchPrograms} />;
 }
 
 export async function getStaticProps() {
   //fetch data from an API which code
   //we write here never end up in client side
   // the code here will never reach machines of our visitors
-  const [userPrograms, dispatch] = useReducer(programReducer, []);
-  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
-    useHttp();
-
-  useEffect(() => {
-    if (!isLoading && !error && reqIdentifer === "REMOVE_PROGRAM") {
-      dispatch({ type: "DELETE", id: reqExtra });
-    } else if (!isLoading && !error && reqIdentifer === "ADD_PROGRAM") {
-      dispatch({
-        type: "ADD",
-        ingredient: { id: data.name, ...reqExtra },
-      });
-    }
-  }, [data, reqExtra, reqIdentifer, isLoading, error]);
-
-  const filteredIngredientsHandler = useCallback((filteredIngredients) => {
-    // setUserIngredients(filteredIngredients);
-    dispatch({ type: "SET", ingredients: filteredIngredients });
-  }, []);
-
-  const addIngredientHandler = useCallback((program) => {
-    sendRequest(
-      "http://172.20.10.2:8081/programs/api/v3",
-      "POST",
-      JSON.stringify(program),
-      program,
-      "ADD_PROGRAM"
-    );
-  }, []);
-
-  const removeIngredientHandler = useCallback(
-    (programId) => {
-      sendRequest(
-        `http://172.20.10.2:8088/ingredienst/api/v1/${programId}.json`,
-        "DELETE",
-        null,
-        programId,
-        "REMOVE_PROGRAM"
-      );
-    },
-    [sendRequest]
-  );
 
   return {
     props: {
-      programs: userPrograms,
+      programs: DUMMY_PROGRAMS,
     },
     revalidate: 10,
   };
