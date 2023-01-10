@@ -3,19 +3,21 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const programReducer = (currentPrograms, action) => {
-  switch (action.type) {
-    case "SET":
-      return action.programs;
-    case "ADD":
-      return [...currentPrograms, action.program];
-    case "DELETE":
-      return currentPrograms.filter((program) => program.id !== action.id);
-    default:
-      throw new Error("Should not get there!");
-  }
-};
+    switch (action.type) {
+      case "SET":
+        return action.programs;
+      case "ADD":
+        return [...currentPrograms, action.program];
+      case "DELETE":
+        return currentPrograms.filter((program) => program.id !== action.id);
+      default:
+        throw new Error("Should not get there!");
+    }
+  };
+  
 
-const DUMMY_PROGRAMS = [
+
+/*const DUMMY_PROGRAMS = [
   {
     id: "p1",
     title: "Java",

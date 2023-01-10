@@ -27,7 +27,7 @@ function UserPage(props) {
   const fetchApi = async () => {
     try {
       const res = axios
-        .get("http://10.44.0.56:8081/users/api/v2")
+        .get("http://172.20.10.2:8081/users/api/v2")
         .then((res) => {
           const userList = res.data.data;
 
@@ -52,6 +52,7 @@ function UserPage(props) {
     fetchUsers.push(object);
   });
 
+  console.log("Here fetch users ");
   console.log(fetchUsers);
   return <UserList users={userFromStore} />;
 }

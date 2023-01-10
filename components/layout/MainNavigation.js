@@ -18,7 +18,7 @@ function MainNavigation() {
             <Link href="/programs/newProgram">Add New Program</Link>
           </li>
           <li>
-            <Link href="/users/newUser">Add New User</Link>
+            <Link href="/ingredients/">Ingredienst Dükkani</Link>
           </li>
         </ul>
       </nav>

@@ -5,21 +5,6 @@ import Link from "next/link";
 import { Fragment } from "react";
 import UserDetail from "../../../components/users/UserDetail";
 
-const USER_PROGRAMS = [
-  {
-    id: "u1",
-    firstName: "Metho",
-    lastName: "Kaldi",
-    email: "methoKaldi@gmail.com",
-  },
-  {
-    id: "u2",
-    firstName: "Atilla",
-    lastName: "Kiyak",
-    email: "atillaKiyatCokYasar@gmail.com",
-  },
-];
-
 function UsersDetail() {
   /* const listLectures = DUMMY_PROGRAMS.lectures.map((element) => {
     return (

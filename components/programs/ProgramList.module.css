@@ -1,5 +1,62 @@
+.item {
+  margin: 1rem 0;
+}
+
+.table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tr:hover {
+  background-color: #ddd;
+}
+
+.table th {
+  padding: 12px 12px;
+  text-align: center;
+  font-size: 16px;
+  background-color: #77002e;
+  color: white;
+}
+.table td {
+  padding: 12px 12px;
+  text-align: center;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+}
+
 .list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+  font-size: 1.25rem;
+  color: #2c292b;
+  text-align: center;
+}
+
+.content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.content h3 {
+  font-size: 1.25rem;
+  color: #2c292b;
+}
+
+.actions {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.actions button {
+  font: inherit;
+  cursor: pointer;
+  color: #77002e;
+  border: 1px solid #77002e;
+  background-color: transparent;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+}
+
+.actions button:hover,
+.actions button:active {
+  background-color: #ffe2ed;
 }
