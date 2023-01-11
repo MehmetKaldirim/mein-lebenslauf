@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Card from "../ui/Card";
 
-import LoadingIndicator from "./LoadingIndicator";
+import LoadingIndicator from "../ui/LoadingIndicator";
 import classes from "./IngredientForm.module.css";
 
 const IngredientForm = React.memo((props) => {

@@ -71,10 +71,21 @@ const Ingredients = () => {
   }, [userIngredients, removeIngredientHandler]);
 
   return (
-    <div>
-      <NewProgramForm onAddProgram={onAddProgramHandler} loading={isLoading} />
-      {programList}
+    <div className="App">
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
+
+      <IngredientForm
+        onAddIngredient={addIngredientHandler}
+        loading={isLoading}
+      />
+
+      <section>
+        <Search onLoadIngredients={filteredIngredientsHandler} />
+        {ingredientList}
+      </section>
     </div>
+  );
+};
   );
 };
 
