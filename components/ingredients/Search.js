@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 
+import Card from "../ui/Card";
 import ErrorModal from "./ErrorModal";
 import useHttp from "../../hooks/http";
-import "./Search.module.css";
+import classes from "./Search.module.css";
 
 const Search = React.memo((props) => {
   const { onLoadIngredients } = props;
@@ -43,10 +44,10 @@ const Search = React.memo((props) => {
   }, [data, isLoading, error, onLoadIngredients]);
 
   return (
-    <section className="search">
+    <Card>
       {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
 
-      <div className="search-input">
+      <div className={classes.control}>
         <label>Filter by Title</label>
         {isLoading && <span>Loading...</span>}
         <input
@@ -56,7 +57,7 @@ const Search = React.memo((props) => {
           onChange={(event) => setEnteredFilter(event.target.value)}
         />
       </div>
-    </section>
+    </Card>
   );
 });
 

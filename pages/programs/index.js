@@ -1,94 +1,82 @@
 import ProgramList from "../../components/programs/ProgramList";
 import NewProgramForm from "../../components/programs/ProgramList";
 import React, { useReducer, useEffect, useCallback, useMemo } from "react";
-import axios from "axios";
+
 import useHttp from "../../hooks/http";
 
-const programReducer = (currentPrograms, action) => {
+const ingredientReducer = (currentIngredients, action) => {
   switch (action.type) {
     case "SET":
-      return action.programs;
+      return action.ingredients;
     case "ADD":
-      return [...currentPrograms, action.program];
+      return [...currentIngredients, action.ingredient];
     case "DELETE":
-      return currentPrograms.filter((program) => program.id !== action.id);
+      return currentIngredients.filter((ing) => ing.id !== action.id);
     default:
       throw new Error("Should not get there!");
   }
 };
-function HomePage(props) {
-  const [userPrograms, dispatch] = useReducer(programReducer, []);
+
+const Ingredients = () => {
+  const [userIngredients, dispatch] = useReducer(ingredientReducer, []);
   const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
     useHttp();
 
   useEffect(() => {
-    if (!isLoading && !error && reqIdentifer === "REMOVE_PROGRAM") {
+    if (!isLoading && !error && reqIdentifer === "REMOVE_INGREDIENT") {
       dispatch({ type: "DELETE", id: reqExtra });
-    } else if (!isLoading && !error && reqIdentifer === "ADD_PROGRAM") {
+    } else if (!isLoading && !error && reqIdentifer === "ADD_INGREDIENT") {
       dispatch({
         type: "ADD",
-        program: { id: data.id, ...reqExtra },
-      });
-    } else if (!isLoading && !error && reqIdentifer === "SHOW_PROGRAM") {
-      dispatch({
-        type: "SET",
+        ingredient: { id: data.name, ...reqExtra },
       });
     }
   }, [data, reqExtra, reqIdentifer, isLoading, error]);
 
-  const filteredProgramsHandler = useCallback((filteredPrograms) => {
+  const filteredIngredientsHandler = useCallback((filteredIngredients) => {
     // setUserIngredients(filteredIngredients);
-    dispatch({ type: "SET", programs: filteredPrograms });
+    dispatch({ type: "SET", ingredients: filteredIngredients });
   }, []);
 
-  const onAddProgramHandler = useCallback((program) => {
+  const addIngredientHandler = useCallback((ingredient) => {
     sendRequest(
-      "http://172.20.10.2:8081/programs/api/v3",
+      "http://172.20.10.2:8088/ingredienst/api/v1",
       "POST",
-      JSON.stringify(program),
-      program,
-      "ADD_PROGRAM"
+      JSON.stringify(ingredient),
+      ingredient,
+      "ADD_INGREDIENT"
     );
   }, []);
 
-  /* const removeIngredientHandler = useCallback(
-    (programId) => {
+  const removeIngredientHandler = useCallback(
+    (ingredientId) => {
       sendRequest(
-        `http://172.20.10.2:8081/programs/api/v1/${programId}.json`,
+        `http://172.20.10.2:8088/ingredienst/api/v1/${ingredientId}.json`,
         "DELETE",
         null,
-        programId,
-        "REMOVE_PROGRAM"
+        ingredientId,
+        "REMOVE_INGREDIENT"
       );
     },
     [sendRequest]
-  );*/
+  );
 
-  const programList = useMemo(() => {
-    const fetchPrograms = [];
-    userPrograms.forEach((el) => {
-      let object = {
-        id: el.id,
-        title: el.programName,
-        duration: el.duration,
-        completedTime: el.studyProgress,
-        description: "No dessription",
-      };
-      fetchPrograms.push(object);
-      console.log(object);
-    });
-    return <ProgramList programs={fetchPrograms} />;
-  }, [userPrograms]);
+  const ingredientList = useMemo(() => {
+    return (
+      <IngredientList
+        ingredients={userIngredients}
+        onRemoveItem={removeIngredientHandler}
+      />
+    );
+  }, [userIngredients, removeIngredientHandler]);
 
-  console.log("here we are ");
-  console.log(data);
   return (
     <div>
       <NewProgramForm onAddProgram={onAddProgramHandler} loading={isLoading} />
       {programList}
     </div>
   );
-}
+};
 
 export async function getStaticProps() {
   //fetch data from an API which code

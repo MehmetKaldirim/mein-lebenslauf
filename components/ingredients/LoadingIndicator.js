@@ -1,9 +1,9 @@
 import React from "react";
 
-import "./LoadingIndicator.module.css";
+import classes from "./LoadingIndicator.module.css";
 
 const LoadingIndicator = () => (
-  <div className="lds-ring">
+  <div className={classes.lds - ring}>
     <div />
     <div />
     <div />
