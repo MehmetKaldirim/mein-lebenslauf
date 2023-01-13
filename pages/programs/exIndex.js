@@ -2,22 +2,7 @@ import ProgramList from "../../components/programs/ProgramList";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const programReducer = (currentPrograms, action) => {
-    switch (action.type) {
-      case "SET":
-        return action.programs;
-      case "ADD":
-        return [...currentPrograms, action.program];
-      case "DELETE":
-        return currentPrograms.filter((program) => program.id !== action.id);
-      default:
-        throw new Error("Should not get there!");
-    }
-  };
-  
-
-
-/*const DUMMY_PROGRAMS = [
+const DUMMY_PROGRAMS = [
   {
     id: "p1",
     title: "Java",
@@ -46,13 +31,7 @@ const programReducer = (currentPrograms, action) => {
 function HomePage(props) {
   const [programs, setPrograms] = useState([]);
   let fetchPrograms = [];
-  //const fetchPrograms = [];
-  /*const fetchPrograms = async () => {
-    const res = await fetch("http://172.20.10.2:8081/programs/api/v3");
 
-    console.log("here nothing " + JSON.stringify(res.data.data));
-  };
-  console.log("here i fetched= " + programs);*/
   const fetchApi = async () => {
     try {
       const res = axios
@@ -62,24 +41,6 @@ function HomePage(props) {
 
           setPrograms(programList);
         });
-
-      /*console.log("first all data = " + res.data);
-
-      console.log("here array data " + res.data.data);
-      for (let i = 1; i < res.data.data.length; i++) {
-        let program = {
-          id: res.data.data[i].id,
-          title: res.data.data[i].programName,
-          duration: res.data.data[i].duration,
-          completedTime: res.data.data[i].studyProgress,
-          descriprion: "Is nothing",
-        };
-
-        console.log(i + "nci program " + program.title);
-        fetchPrograms.push(program);
-      }
-
-      console.log("here new object = " + fetchPrograms);*/
     } catch (error) {
       console.log(error.message);
     }

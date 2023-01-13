@@ -1,6 +1,5 @@
 import React, { useReducer, useEffect, useCallback, useMemo } from "react";
 
-import UserList from "../../components/users/UserList";
 import IngredientForm from "../../components/ingredients/IngredientForm";
 import IngredientList from "../../components/ingredients/IngredientList";
 import ErrorModal from "../../components/ingredients/ErrorModal";
@@ -38,7 +37,10 @@ const Ingredients = () => {
 
   const filteredIngredientsHandler = useCallback((filteredIngredients) => {
     // setUserIngredients(filteredIngredients);
+    console.log("can i write here");
     dispatch({ type: "SET", ingredients: filteredIngredients });
+    console.log("filtered");
+    console.log(filteredIngredients);
   }, []);
 
   const addIngredientHandler = useCallback((ingredient) => {
