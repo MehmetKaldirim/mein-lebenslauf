@@ -17,7 +17,7 @@ const Search = React.memo((props) => {
         const query = enteredFilter.length === 0 ? "" : "/" + enteredFilter;
 
         sendRequest(
-          `http://172.20.10.2:8088/ingredients/api/v3${query}`,
+          `http://172.20.10.4:8088/ingredients/api/v3${query}`,
           "GET"
         );
       }

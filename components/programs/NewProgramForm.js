@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import Card from "../ui/Card";
 import classes from "./NewProgramForm.module.css";
@@ -11,6 +11,7 @@ function NewMeetupForm(props) {
 
   function submitHandler(event) {
     event.preventDefault();
+    console.log("never arrived here");
 
     const enteredTitle = titleInputRef.current.value;
     const enteredDuration = durationInputRef.current.value;
@@ -23,7 +24,6 @@ function NewMeetupForm(props) {
       completedTime: enteredCompletedTime,
       description: enteredDescription,
     };
-
     props.onAddProgram(programData);
   }
 

@@ -1,7 +1,8 @@
 import ProgramList from "../../components/programs/ProgramList";
 import React, { useState, useEffect, useCallback } from "react";
-
+import Card from "../../components/ui/Card";
 import NewProgramForm from "../../components/programs/NewProgramForm";
+import ProgramTasak from "../../components/programs/ProgramBaltalist";
 
 function ProgramsHomePage(props) {
   const [programs, setPrograms] = useState([]);
@@ -12,7 +13,7 @@ function ProgramsHomePage(props) {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://172.20.10.2:8081/programs/api/v3");
+      const response = await fetch("http://172.20.10.4:8081/programs/api/v3");
       if (!response.ok) {
         throw new Error("Something went wrong!");
       }
@@ -38,6 +39,8 @@ function ProgramsHomePage(props) {
   useEffect(() => {
     fetchProgramsHandler();
   }, [fetchProgramsHandler]);
+  console.log("programs here");
+  console.log(programs);
 
   async function addProgramHandler(program) {
     const response = await fetch(
@@ -51,7 +54,9 @@ function ProgramsHomePage(props) {
       }
     );
     const data = await response.json();
-    console.log(data);
+
+    console.log("Here is data ");
+    console.log(programData);
   }
 
   /*
@@ -66,13 +71,16 @@ function ProgramsHomePage(props) {
 
   if (isLoading) {
     content = <p>Loading...</p>;
-  } */
+  } 
+    
+  */
 
-  return;
-  <Card>
-    <ProgramList programs={programs} />;
-    <NewProgramForm onAddMovie={addProgramHandler} />
-  </Card>;
+  return (
+    <Card>
+      <NewProgramForm onAddProgram={addProgramHandler} />
+      <ProgramList programs={programs} />
+    </Card>
+  );
 }
 
 export async function getStaticProps() {

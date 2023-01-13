@@ -1,6 +1,4 @@
-import ProgramList from "../components/programs/ProgramList";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
 
 function HomePage(props) {
   return <h1>Welcome Lebenslauf App</h1>;

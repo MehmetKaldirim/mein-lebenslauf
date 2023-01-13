@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import Card from "../ui/Card";
 import classes from "./ProgramList.module.css";
 
-function ProgramItem(props) {
+function ProgramList(props) {
   const router = useRouter();
   function showDetailsHandler() {
     //to navigate programatically
@@ -16,20 +16,24 @@ function ProgramItem(props) {
     //to navigate programatically
     router.push("/programs/" + props.id);
   }
-  //<li className={classes.item}>
+
+  console.log("programs here in program list");
+
   return (
     <Card>
       <table className={classes.table}>
-        <tr>
-          <th>Id</th>
-          <th>Title</th>
-          <th>Duration</th>
-          <th>Completed Time</th>
-          <th>ACTIONS</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Duration</th>
+            <th>Completed Time</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
         <tbody>
           {props.programs.map((program) => (
-            <tr>
+            <tr key={program.id}>
               <td>{program.id}</td>
               <td>{program.title}</td>
               <td>{program.duration}</td>
@@ -48,4 +52,4 @@ function ProgramItem(props) {
   );
 }
 
-export default ProgramItem;
+export default ProgramList;
