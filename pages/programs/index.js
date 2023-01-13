@@ -1,6 +1,7 @@
 import ProgramList from "../../components/programs/ProgramList";
 import React, { useState, useEffect, useCallback } from "react";
-import axios from "axios";
+
+import NewProgramForm from "../../components/programs/NewProgramForm";
 
 function ProgramsHomePage(props) {
   const [programs, setPrograms] = useState([]);
@@ -38,6 +39,21 @@ function ProgramsHomePage(props) {
     fetchProgramsHandler();
   }, [fetchProgramsHandler]);
 
+  async function addProgramHandler(program) {
+    const response = await fetch(
+      "http://172.20.10.2:8081/programs/api/v3/Post",
+      {
+        method: "POST",
+        body: JSON.stringify(program),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    console.log(data);
+  }
+
   /*
   let content = <p>Found no movies.</p>;
   if (programs.length > 0) {
@@ -52,7 +68,11 @@ function ProgramsHomePage(props) {
     content = <p>Loading...</p>;
   } */
 
-  return <ProgramList programs={programs} />;
+  return;
+  <Card>
+    <ProgramList programs={programs} />;
+    <NewProgramForm onAddMovie={addProgramHandler} />
+  </Card>;
 }
 
 export async function getStaticProps() {

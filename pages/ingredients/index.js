@@ -45,7 +45,7 @@ const Ingredients = () => {
 
   const addIngredientHandler = useCallback((ingredient) => {
     sendRequest(
-      "http://172.20.10.2:8088/ingredienst/api/v1",
+      "http://172.20.10.2:8088/ingredients/api/v3",
       "POST",
       JSON.stringify(ingredient),
       ingredient,
@@ -56,7 +56,7 @@ const Ingredients = () => {
   const removeIngredientHandler = useCallback(
     (ingredientId) => {
       sendRequest(
-        `http://172.20.10.2:8088/ingredienst/api/v1/${ingredientId}.json`,
+        `http://172.20.10.2:8088/ingredients/api/v3/${ingredientId}.json`,
         "DELETE",
         null,
         ingredientId,
