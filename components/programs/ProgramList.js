@@ -1,55 +1,27 @@
-import { useRouter } from "next/router";
+import React from "react";
+
 import Card from "../ui/Card";
 import classes from "./ProgramList.module.css";
 
-function ProgramList(props) {
-  const router = useRouter();
-  function showDetailsHandler() {
-    //to navigate programatically
-    router.push("/programs/" + props.id);
-  }
-  function onClickEditHandler() {
-    //to navigate programatically
-    router.push("/programs/" + props.id);
-  }
-  function onClickDeleteHandler() {
-    //to navigate programatically
-    router.push("/programs/" + props.id);
-  }
-
-  console.log("programs here in program list");
+const ProgramList = (props) => {
+  console.log("here props in list");
+  console.log(props.programs);
 
   return (
     <Card>
-      <table className={classes.table}>
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Title</th>
-            <th>Duration</th>
-            <th>Completed Time</th>
-            <th>ACTIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.programs.map((program) => (
-            <tr key={program.id}>
-              <td>{program.id}</td>
-              <td>{program.title}</td>
-              <td>{program.duration}</td>
-              <td>{program.completedTime}</td>
-
-              <td className={classes.action}>
-                <button onClick={onClickEditHandler}>Edit</button>
-                <button onClick={onClickDeleteHandler}>Delete</button>
-                <button onClick={showDetailsHandler}>Show Details</button>
-              </td>
-            </tr>
+      <section className={classes.program}>
+        <h2>Loaded Programs</h2>
+        <ul>
+          {props.programs.map((prg) => (
+            <li key={prg.id} onClick={props.onRemoveItem.bind(this, prg.id)}>
+              <span>{prg.programName}</span>
+              <span>{prg.duration}x</span>
+            </li>
           ))}
-        </tbody>
-      </table>
+        </ul>
+      </section>
     </Card>
   );
-}
+};
 
 export default ProgramList;

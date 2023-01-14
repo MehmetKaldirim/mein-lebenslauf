@@ -1,99 +1,94 @@
+import React, { useReducer, useEffect, useCallback, useMemo } from "react";
+
+import ProgramForm from "../../components/programs/NewProgramForm";
 import ProgramList from "../../components/programs/ProgramList";
-import React, { useState, useEffect, useCallback } from "react";
-import Card from "../../components/ui/Card";
-import NewProgramForm from "../../components/programs/NewProgramForm";
-import ProgramTasak from "../../components/programs/ProgramBaltalist";
+import ErrorModal from "../../components/ingredients/ErrorModal";
+import SearchProgram from "../../components/programs/SearchProgram";
+import useHttp from "../../hooks/http";
 
-function ProgramsHomePage(props) {
-  const [programs, setPrograms] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+const programReducer = (currentPrograms, action) => {
+  switch (action.type) {
+    case "SET":
+      return action.programs;
+    case "ADD":
+      return [...currentPrograms, action.program];
+    case "DELETE":
+      return currentPrograms.filter((prg) => prg.id !== action.id);
+    default:
+      throw new Error("Should not get there!");
+  }
+};
 
-  const fetchProgramsHandler = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await fetch("http://172.20.10.4:8081/programs/api/v3");
-      if (!response.ok) {
-        throw new Error("Something went wrong!");
-      }
-
-      const data = await response.json();
-
-      const transformedPrograms = data.data.map((el) => {
-        return {
-          id: el.id,
-          title: el.programName,
-          duration: el.duration,
-          completedTime: el.studyProgress,
-          description: "No dessription",
-        };
-      });
-      setPrograms(transformedPrograms);
-    } catch (error) {
-      setError(error.message);
-    }
-    setIsLoading(false);
-  }, []);
+const ProgramHomePages = () => {
+  const [userPrograms, dispatch] = useReducer(programReducer, []);
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
+    useHttp();
 
   useEffect(() => {
-    fetchProgramsHandler();
-  }, [fetchProgramsHandler]);
-  console.log("programs here");
-  console.log(programs);
+    if (!isLoading && !error && reqIdentifer === "REMOVE_PROGRAM") {
+      dispatch({ type: "DELETE", id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifer === "ADD_PROGRAM") {
+      dispatch({
+        type: "ADD",
+        program: { id: data.name, ...reqExtra },
+      });
+    }
+  }, [data, reqExtra, reqIdentifer, isLoading, error]);
 
-  async function addProgramHandler(program) {
-    const response = await fetch(
-      "http://172.20.10.2:8081/programs/api/v3/Post",
-      {
-        method: "POST",
-        body: JSON.stringify(program),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+  const filteredProgramsHandler = useCallback((filteredPrograms) => {
+    // setUserIngredients(filteredIngredients);
+    console.log("can i write here");
+    dispatch({ type: "SET", programs: filteredPrograms });
+    console.log("filtered");
+    console.log(filteredPrograms);
+  }, []);
+
+  const addProgramHandler = useCallback((program) => {
+    sendRequest(
+      "http://172.20.10.2:8088/ingredients/api/v3",
+      "POST",
+      JSON.stringify(program),
+      program,
+      "ADD_PROGRAM"
     );
-    const data = await response.json();
+  }, []);
 
-    console.log("Here is data ");
-    console.log(programData);
-  }
+  const removeProgramHandler = useCallback(
+    (programId) => {
+      sendRequest(
+        `http://172.20.10.2:8088/ingredients/api/v3/${programId}`,
+        "DELETE",
+        null,
+        programId,
+        "REMOVE_PROGRAM"
+      );
+      console.log("here is id");
+      console.log(programId);
+    },
+    [sendRequest]
+  );
 
-  /*
-  let content = <p>Found no movies.</p>;
-  if (programs.length > 0) {
-    content = <ProgramList programs={programs} />;
-  }
-
-  if (error) {
-    content = <p>{error}</p>;
-  }
-
-  if (isLoading) {
-    content = <p>Loading...</p>;
-  } 
-    
-  */
+  const programList = useMemo(() => {
+    return (
+      <ProgramList
+        programs={userPrograms}
+        onRemoveItem={removeProgramHandler}
+      />
+    );
+  }, [userPrograms, removeProgramHandler]);
 
   return (
-    <Card>
-      <NewProgramForm onAddProgram={addProgramHandler} />
-      <ProgramList programs={programs} />
-    </Card>
+    <div className="App">
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
+
+      <ProgramForm onAddProgram={addProgramHandler} loading={isLoading} />
+
+      <section>
+        <SearchProgram onLoadPrograms={filteredProgramsHandler} />
+        {programList}
+      </section>
+    </div>
   );
-}
+};
 
-export async function getStaticProps() {
-  //fetch data from an API which code
-  //we write here never end up in client side
-  // the code here will never reach machines of our visitors
-
-  return {
-    props: {
-      programs: null,
-    },
-    revalidate: 10,
-  };
-}
-
-export default ProgramsHomePage;
+export default ProgramHomePages;

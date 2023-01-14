@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import Card from "../ui/Card";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "../ingredients/ErrorModal";
 import useHttp from "../../hooks/http";
-import classes from "./Search.module.css";
+import classes from "./SearchProgram.module.css";
 
-const Search = React.memo((props) => {
-  const { onLoadIngredients } = props;
+const SearchProgram = React.memo((props) => {
+  const { onLoadPrograms } = props;
   const [enteredFilter, setEnteredFilter] = useState("");
   const inputRef = useRef();
   const { isLoading, data, error, sendRequest, clear } = useHttp();
@@ -16,10 +16,7 @@ const Search = React.memo((props) => {
       if (enteredFilter === inputRef.current.value) {
         const query = enteredFilter.length === 0 ? "" : "/" + enteredFilter;
 
-        sendRequest(
-          `http://172.20.10.2:8088/ingredients/api/v3${query}`,
-          "GET"
-        );
+        sendRequest(`http://172.20.10.2:8081/programs/api/v3${query}`, "GET");
       }
     }, 500);
     return () => {
@@ -29,19 +26,21 @@ const Search = React.memo((props) => {
 
   useEffect(() => {
     if (!isLoading && !error && data) {
-      const loadedIngredients = [];
+      const loadedPrograms = [];
       const medata = data.data;
 
       for (const key in medata) {
-        loadedIngredients.push({
+        loadedPrograms.push({
           id: key,
-          title: medata[key].title,
-          amount: medata[key].amount,
+          programName: medata[key].programName,
+          duration: medata[key].duration,
         });
       }
-      onLoadIngredients(loadedIngredients);
+      onLoadPrograms(loadedPrograms);
+      console.log("onLoadPrograms");
+      console.log(loadedPrograms);
     }
-  }, [data, isLoading, error, onLoadIngredients]);
+  }, [data, isLoading, error, onLoadPrograms]);
 
   return (
     <Card>
@@ -61,4 +60,4 @@ const Search = React.memo((props) => {
   );
 });
 
-export default Search;
+export default SearchProgram;

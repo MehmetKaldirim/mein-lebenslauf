@@ -14,15 +14,24 @@ function NewMeetupForm(props) {
     console.log("never arrived here");
 
     const enteredTitle = titleInputRef.current.value;
+    const enteredDescription = descriptionInputRef.current.value;
     const enteredDuration = durationInputRef.current.value;
     const enteredCompletedTime = completedTimeInputRef.current.value;
-    const enteredDescription = descriptionInputRef.current.value;
 
     const programData = {
-      title: enteredTitle,
+      createdBy: 1,
+      createdTime: "2021-05-01T00:00:00",
+      updatedBy: 1,
+      updatedTime: "2021-05-01T00:00:00",
+      isDeleted: false,
+      programCode: enteredDescription,
+      lecture: null,
+      studyProgress: enteredCompletedTime,
       duration: enteredDuration,
-      completedTime: enteredCompletedTime,
-      description: enteredDescription,
+      programName: enteredTitle,
+      programStatus: "OPEN",
+      userList: null,
+      subjeytList: null,
     };
     props.onAddProgram(programData);
   }
