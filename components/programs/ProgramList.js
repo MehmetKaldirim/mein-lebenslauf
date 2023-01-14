@@ -14,7 +14,7 @@ const ProgramList = (props) => {
         <ul>
           {props.programs.map((prg) => (
             <li key={prg.id} onClick={props.onRemoveItem.bind(this, prg.id)}>
-              <span>{prg.programName}</span>
+              <span>{prg.programCode}</span>
               <span>{prg.duration}x</span>
             </li>
           ))}

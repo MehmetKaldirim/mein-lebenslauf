@@ -43,16 +43,6 @@ const ProgramHomePages = () => {
     console.log(filteredPrograms);
   }, []);
 
-  const addProgramHandler = useCallback((program) => {
-    sendRequest(
-      "http://172.20.10.2:8081/programs/api/v3",
-      "POST",
-      JSON.stringify(program),
-      program,
-      "ADD_PROGRAM"
-    );
-  }, []);
-
   const removeProgramHandler = useCallback(
     (programId) => {
       sendRequest(
@@ -80,8 +70,6 @@ const ProgramHomePages = () => {
   return (
     <div className="App">
       {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
-
-      <ProgramForm onAddProgram={addProgramHandler} loading={isLoading} />
 
       <section>
         <SearchProgram onLoadPrograms={filteredProgramsHandler} />

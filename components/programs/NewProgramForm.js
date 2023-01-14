@@ -1,9 +1,38 @@
-import { useRef, useState } from "react";
+import { useRef, useReducer, useCallback, useEffect } from "react";
 
 import Card from "../ui/Card";
+import useHttp from "../../hooks/http";
 import classes from "./NewProgramForm.module.css";
 
+const programReducer = (currentPrograms, action) => {
+  switch (action.type) {
+    case "SET":
+      return action.programs;
+    case "ADD":
+      return [...currentPrograms, action.program];
+    case "DELETE":
+      return currentPrograms.filter((prg) => prg.id !== action.id);
+    default:
+      throw new Error("Should not get there!");
+  }
+};
+
 function NewMeetupForm(props) {
+  const [userPrograms, dispatch] = useReducer(programReducer, []);
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
+    useHttp();
+
+  useEffect(() => {
+    if (!isLoading && !error && reqIdentifer === "REMOVE_PROGRAM") {
+      dispatch({ type: "DELETE", id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifer === "ADD_PROGRAM") {
+      dispatch({
+        type: "ADD",
+        program: { id: data.name, ...reqExtra },
+      });
+    }
+  }, [data, reqExtra, reqIdentifer, isLoading, error]);
+
   const titleInputRef = useRef();
   const durationInputRef = useRef();
   const completedTimeInputRef = useRef();
@@ -31,10 +60,20 @@ function NewMeetupForm(props) {
       programName: enteredTitle,
       programStatus: "OPEN",
       userList: null,
-      subjeytList: null,
+      subjectList: null,
     };
-    props.onAddProgram(programData);
+    addProgramHandler(programData);
   }
+
+  const addProgramHandler = useCallback((programData) => {
+    sendRequest(
+      "http://172.20.10.2:8081/programs/api/v3",
+      "POST",
+      JSON.stringify(programData),
+      programData,
+      "ADD_PROGRAM"
+    );
+  }, []);
 
   return (
     <Card>

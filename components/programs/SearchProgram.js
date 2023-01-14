@@ -8,17 +8,23 @@ import classes from "./SearchProgram.module.css";
 const SearchProgram = React.memo((props) => {
   const { onLoadPrograms } = props;
   const [enteredFilter, setEnteredFilter] = useState("");
+  const [isArray, setIsArray] = useState(true);
+
   const inputRef = useRef();
   const { isLoading, data, error, sendRequest, clear } = useHttp();
-
+  let query;
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (enteredFilter === inputRef.current.value) {
-        const query = enteredFilter.length === 0 ? "" : "/" + enteredFilter;
-
+      if (enteredFilter.length === 0) {
+        query = "";
+        sendRequest(`http://172.20.10.2:8081/programs/api/v3`, "GET");
+        setIsArray(true);
+      } else {
+        query = "/" + enteredFilter;
         sendRequest(`http://172.20.10.2:8081/programs/api/v3${query}`, "GET");
+        setIsArray(false);
       }
-    }, 500);
+    }, 3000);
     return () => {
       clearTimeout(timer);
     };
@@ -27,26 +33,48 @@ const SearchProgram = React.memo((props) => {
   useEffect(() => {
     if (!isLoading && !error && data) {
       const loadedPrograms = [];
-      const medata = data.data;
+      const me = data.data;
 
-      console.log("medata");
-      console.log(medata);
+      /*for (const key in medata) {
+        loadedPrograms.push({
+          id: key,
+          programName: medata[key].programName,
+          duration: medata[key].duration,
+          programCode: medata[key].programCode,
+        });
+      }
+   */
+      if (isArray) {
+        me.forEach((el) => {
+          let object = {
+            id: el.id,
+            programCode: el.programCode,
+            programName: el.programName,
+            duration: el.duration,
+            completedTime: el.studyProgress,
+          };
+          loadedPrograms.push(object);
+          console.log(object);
+        });
+        onLoadPrograms(loadedPrograms);
+        console.log("onLoadPrograms for array");
+        console.log(loadedPrograms);
+      } else {
+        console.log("here is me");
+        console.log(me);
 
-      medata.forEach((el) => {
         let object = {
-          id: el.id,
-          programName: el.programName,
-          duration: el.duration,
-          completedTime: el.studyProgress,
-          description: "No dessription",
+          id: me.id,
+          programCode: me.programCode,
+          programName: me.programName,
+          duration: me.duration,
+          completedTime: me.studyProgress,
         };
         loadedPrograms.push(object);
-        console.log(object);
-      });
-
-      onLoadPrograms(loadedPrograms);
-      console.log("onLoadPrograms");
-      console.log(loadedPrograms);
+        console.log("isArray false object");
+        console.log(loadedPrograms);
+        onLoadPrograms(loadedPrograms);
+      }
     }
   }, [data, isLoading, error, onLoadPrograms]);
 
@@ -55,7 +83,7 @@ const SearchProgram = React.memo((props) => {
       {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
 
       <div className={classes.control}>
-        <label>Filter by Title</label>
+        <label>Filter by Program Code</label>
         {isLoading && <span>Loading...</span>}
         <input
           ref={inputRef}
