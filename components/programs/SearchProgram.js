@@ -29,13 +29,21 @@ const SearchProgram = React.memo((props) => {
       const loadedPrograms = [];
       const medata = data.data;
 
-      for (const key in medata) {
-        loadedPrograms.push({
-          id: key,
-          programName: medata[key].programName,
-          duration: medata[key].duration,
-        });
-      }
+      console.log("medata");
+      console.log(medata);
+
+      medata.forEach((el) => {
+        let object = {
+          id: el.id,
+          programName: el.programName,
+          duration: el.duration,
+          completedTime: el.studyProgress,
+          description: "No dessription",
+        };
+        loadedPrograms.push(object);
+        console.log(object);
+      });
+
       onLoadPrograms(loadedPrograms);
       console.log("onLoadPrograms");
       console.log(loadedPrograms);

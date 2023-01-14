@@ -45,7 +45,7 @@ const ProgramHomePages = () => {
 
   const addProgramHandler = useCallback((program) => {
     sendRequest(
-      "http://172.20.10.2:8088/ingredients/api/v3",
+      "http://172.20.10.2:8081/programs/api/v3",
       "POST",
       JSON.stringify(program),
       program,
@@ -56,7 +56,7 @@ const ProgramHomePages = () => {
   const removeProgramHandler = useCallback(
     (programId) => {
       sendRequest(
-        `http://172.20.10.2:8088/ingredients/api/v3/${programId}`,
+        `http://172.20.10.2:8081/programs/api/v3/${programId}`,
         "DELETE",
         null,
         programId,
