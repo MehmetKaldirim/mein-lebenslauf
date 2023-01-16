@@ -1,20 +1,18 @@
 import { useRouter } from "next/router";
+import Link from "next/link";
+
 import Card from "../ui/Card";
 import classes from "./ProgramList.module.css";
 
-function ProgramList(props) {
+function ProgramList1(props) {
   const router = useRouter();
   function showDetailsHandler() {
     //to navigate programatically
-    router.push("/programs/" + props.id);
+    router.push("/programs/" + props.programs.id);
   }
   function onClickEditHandler() {
     //to navigate programatically
-    router.push("/programs/" + props.id);
-  }
-  function onClickDeleteHandler() {
-    //to navigate programatically
-    router.push("/programs/" + props.id);
+    router.push("/programEdit/" + props.id);
   }
 
   console.log("programs here in program list");
@@ -35,14 +33,20 @@ function ProgramList(props) {
           {props.programs.map((program) => (
             <tr key={program.id}>
               <td>{program.id}</td>
-              <td>{program.title}</td>
+              <td>{program.programName}</td>
               <td>{program.duration}</td>
               <td>{program.completedTime}</td>
 
               <td className={classes.action}>
-                <button onClick={onClickEditHandler}>Edit</button>
-                <button onClick={onClickDeleteHandler}>Delete</button>
-                <button onClick={showDetailsHandler}>Show Details</button>
+                <Link href="/programs/newProgram">
+                  <button onClick={onClickEditHandler}>Edit</button>
+                </Link>
+                <button onClick={props.onRemoveItem.bind(this, program.id)}>
+                  Delete
+                </button>
+                <Link href={`programs/${program.id}`}>
+                  <button>Show Details</button>
+                </Link>
               </td>
             </tr>
           ))}
@@ -52,4 +56,4 @@ function ProgramList(props) {
   );
 }
 
-export default ProgramList;
+export default ProgramList1;

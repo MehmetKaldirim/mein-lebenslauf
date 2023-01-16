@@ -2,6 +2,7 @@ import React, { useReducer, useEffect, useCallback, useMemo } from "react";
 
 import ProgramForm from "../../components/programs/NewProgramForm";
 import ProgramList from "../../components/programs/ProgramList";
+import ProgramList1 from "../../components/programs/ProgramList1";
 import ErrorModal from "../../components/ingredients/ErrorModal";
 import SearchProgram from "../../components/programs/SearchProgram";
 import useHttp from "../../hooks/http";
@@ -37,10 +38,7 @@ const ProgramHomePages = () => {
 
   const filteredProgramsHandler = useCallback((filteredPrograms) => {
     // setUserIngredients(filteredIngredients);
-    console.log("can i write here");
     dispatch({ type: "SET", programs: filteredPrograms });
-    console.log("filtered");
-    console.log(filteredPrograms);
   }, []);
 
   const removeProgramHandler = useCallback(
@@ -58,11 +56,37 @@ const ProgramHomePages = () => {
     [sendRequest]
   );
 
+  const editProgramHandler = useCallback(
+    (program, programId) => {
+      sendRequest(
+        `http://172.20.10.2:8081/programs/api/v3/${programId}`,
+        "PUT",
+        program,
+        programId,
+        "REMOVE_PROGRAM"
+      );
+      console.log("here is id");
+      console.log(programId);
+    },
+    [sendRequest]
+  );
+
+  const programList1 = useMemo(() => {
+    return (
+      <ProgramList1
+        programs={userPrograms}
+        onRemoveItem={removeProgramHandler}
+      />
+    );
+  }, [userPrograms, removeProgramHandler]);
+
   const programList = useMemo(() => {
     return (
       <ProgramList
         programs={userPrograms}
         onRemoveItem={removeProgramHandler}
+        onEditIte
+        m={editProgramHandler}
       />
     );
   }, [userPrograms, removeProgramHandler]);
@@ -73,7 +97,7 @@ const ProgramHomePages = () => {
 
       <section>
         <SearchProgram onLoadPrograms={filteredProgramsHandler} />
-        {programList}
+        {programList1}
       </section>
     </div>
   );

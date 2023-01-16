@@ -1,12 +1,36 @@
 import { useRouter } from "next/router";
-
-function ProgramDetail() {
+import { useEffect, useState } from "react";
+import useHttp from "../../../hooks/http";
+import ProgramDetail from "../../../components/programs/ProgramDetail";
+function ProgramDetailPage() {
   const router = useRouter();
+
+  // const [programId, setProgramId] = useState();
+  const [program, setProgram] = useState([]);
+  const { isLoading, data, error, sendRequest } = useHttp();
   const programId = router.query.programId;
   //send a request to the backend API
+
   //to fetch the news item with NewsId
 
-  return <h1>Details about program {programId} </h1>;
+  useEffect(() => {
+    if (programId) {
+      sendRequest(
+        `http://172.20.10.2:8081/programs/api/v3/programId/${programId}`,
+        "GET"
+      );
+    }
+  }, [sendRequest]);
+
+  useEffect(() => {
+    if (!isLoading && !error && data) {
+      setProgram(data.data);
+    }
+  }, [data]);
+
+  console.log("here is get one program");
+  console.log(program);
+  return <ProgramDetail program={program} />;
 }
 
-export default ProgramDetail;
+export default ProgramDetailPage;
