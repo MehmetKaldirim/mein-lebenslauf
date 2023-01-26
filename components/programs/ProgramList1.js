@@ -6,14 +6,6 @@ import classes from "./ProgramList.module.css";
 
 function ProgramList1(props) {
   const router = useRouter();
-  function showDetailsHandler() {
-    //to navigate programatically
-    router.push("/programs/" + props.programs.id);
-  }
-  function onClickEditHandler() {
-    //to navigate programatically
-    router.push("/programEdit/" + props.id);
-  }
 
   console.log("programs here in program list");
 
@@ -38,8 +30,8 @@ function ProgramList1(props) {
               <td>{program.completedTime}</td>
 
               <td className={classes.action}>
-                <Link href="/programs/newProgram">
-                  <button onClick={onClickEditHandler}>Edit</button>
+                <Link href={`edit/programs/${program.id}`}>
+                  <button>Edit</button>
                 </Link>
                 <button onClick={props.onRemoveItem.bind(this, program.id)}>
                   Delete

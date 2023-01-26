@@ -1,4 +1,4 @@
-import { useRef, useReducer, useCallback, useEffect } from "react";
+import { useRef, useReducer, useCallback, useEffect, useState } from "react";
 
 import Card from "../ui/Card";
 import useHttp from "../../hooks/http";
@@ -17,7 +17,7 @@ const programReducer = (currentPrograms, action) => {
   }
 };
 
-function NewMeetupForm(props) {
+function EditMeetupForm(props) {
   const [userPrograms, dispatch] = useReducer(programReducer, []);
   const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
     useHttp();
@@ -37,6 +37,10 @@ function NewMeetupForm(props) {
   const durationInputRef = useRef();
   const completedTimeInputRef = useRef();
   const descriptionInputRef = useRef();
+
+  console.log("here props ");
+  console.log(props.program.programName);
+  titleInputRef.current = props.program.programName;
 
   function submitHandler(event) {
     event.preventDefault();
@@ -105,11 +109,11 @@ function NewMeetupForm(props) {
           ></textarea>
         </div>
         <div className={classes.actions}>
-          <button>Add Program</button>
+          <button>Edit Program</button>
         </div>
       </form>
     </Card>
   );
 }
 
-export default NewMeetupForm;
+export default EditMeetupForm;
