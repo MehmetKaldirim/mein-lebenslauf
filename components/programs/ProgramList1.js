@@ -7,8 +7,6 @@ import classes from "./ProgramList.module.css";
 function ProgramList1(props) {
   const router = useRouter();
 
-  console.log("programs here in program list");
-
   return (
     <Card>
       <table className={classes.table}>
@@ -30,7 +28,7 @@ function ProgramList1(props) {
               <td>{program.completedTime}</td>
 
               <td className={classes.action}>
-                <Link href={`edit/programs/${program.id}`}>
+                <Link href={`/programs/edit/${program.id}`}>
                   <button>Edit</button>
                 </Link>
                 <button onClick={props.onRemoveItem.bind(this, program.id)}>

@@ -18,14 +18,6 @@ const programReducer = (currentPrograms, action) => {
 };
 
 function EditMeetupForm(props) {
-  const [enteredTitle, setEnteredTitle] = useState(props.program.programName);
-  const [enteredDuration, setEnteredDuration] = useState(
-    props.program.duration
-  );
-  const [enteredCompletedTime, setEnteredCompletedTime] = useState(
-    props.program.studyProgress
-  );
-
   const [userPrograms, dispatch] = useReducer(programReducer, []);
   const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
     useHttp();
@@ -41,27 +33,31 @@ function EditMeetupForm(props) {
     }
   }, [data, reqExtra, reqIdentifer, isLoading, error]);
 
-  useEffect(() => {
-    setEnteredTitle(props.program.programName);
-    setEnteredDuration(props.program.duration);
-    setEnteredCompletedTime(props.program.studyProgress);
-  }, [props]);
+  const titleInputRef = useRef();
+  const durationInputRef = useRef();
+  const completedTimeInputRef = useRef();
+  const descriptionInputRef = useRef();
+
+  console.log("here props ");
+  console.log(props.program.programName);
+  titleInputRef.current = props.program.programName;
 
   function submitHandler(event) {
     event.preventDefault();
-
     console.log("never arrived here");
-    console.log("here new pname");
-    console.log(enteredTitle);
+
+    const enteredTitle = titleInputRef.current.value;
+    const enteredDescription = descriptionInputRef.current.value;
+    const enteredDuration = durationInputRef.current.value;
+    const enteredCompletedTime = completedTimeInputRef.current.value;
 
     const programData = {
-      id: props.program.id,
       createdBy: 1,
       createdTime: "2021-05-01T00:00:00",
       updatedBy: 1,
       updatedTime: "2021-05-01T00:00:00",
       isDeleted: false,
-      programCode: "FS01",
+      programCode: enteredDescription,
       lecture: null,
       studyProgress: enteredCompletedTime,
       duration: enteredDuration,
@@ -76,7 +72,7 @@ function EditMeetupForm(props) {
   const addProgramHandler = useCallback((programData) => {
     sendRequest(
       "http://172.20.10.2:8081/programs/api/v3",
-      "PUT",
+      "POST",
       JSON.stringify(programData),
       programData,
       "ADD_PROGRAM"
@@ -88,40 +84,29 @@ function EditMeetupForm(props) {
       <form className={classes.form} onSubmit={submitHandler}>
         <div className={classes.control}>
           <label htmlFor="title">Program Title</label>
-          <input
-            type="text"
-            required
-            id="title"
-            value={enteredTitle}
-            onChange={(e) => {
-              setEnteredTitle(e.target.value);
-            }}
-          />
+          <input type="text" required id="required" ref={titleInputRef} />
         </div>
         <div className={classes.control}>
           <label htmlFor="duration">Total Duration</label>
-          <input
-            type="number"
-            required
-            id="duration"
-            value={enteredDuration}
-            onChange={(e) => {
-              setEnteredDuration(e.target.value);
-            }}
-          />
+          <input type="number" required id="duration" ref={durationInputRef} />
         </div>
-
         <div className={classes.control}>
           <label htmlFor="completedTime">Covered Duration</label>
           <input
             type="number"
             required
-            id="studyProgres"
-            value={enteredCompletedTime}
-            onChange={(e) => {
-              setEnteredCompletedTime(e.target.value);
-            }}
+            id="duration"
+            ref={completedTimeInputRef}
           />
+        </div>
+        <div className={classes.control}>
+          <label htmlFor="description">Description</label>
+          <textarea
+            id="description"
+            required
+            rows="5"
+            ref={descriptionInputRef}
+          ></textarea>
         </div>
         <div className={classes.actions}>
           <button>Edit Program</button>

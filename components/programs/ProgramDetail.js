@@ -2,8 +2,6 @@ import classes from "./ProgramDetail.module.css";
 import Card from "../ui/Card";
 
 function ProgramDetail(props) {
-  console.log("here details for one program");
-  console.log(props.program);
   return (
     <Card>
       <table className={classes.table}>

@@ -28,8 +28,6 @@ function ProgramDetailPage() {
     }
   }, [data]);
 
-  console.log("here is get one program");
-  console.log(program);
   return <ProgramDetail program={program} />;
 }
 
