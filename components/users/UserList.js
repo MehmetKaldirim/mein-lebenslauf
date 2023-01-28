@@ -1,20 +1,23 @@
 import UserItem from "./UserItem";
 import classes from "./UserList.module.css";
 
-function UserList(props) {
+const UserList = (props) => {
   return (
-    <ul className={classes.list}>
-      {props.users.map((user) => (
-        <UserItem
-          key={user.id}
-          id={user.id}
-          firstName={user.firstName}
-          lastName={user.lastName}
-          email={user.email}
-        />
-      ))}
-    </ul>
+    <Card>
+      <section className={classes.program}>
+        <h2>Loaded Users</h2>
+        <ul>
+          {props.users.map((usr) => (
+            <li key={usr.id} onClick={props.onRemoveItem.bind(this, usr.id)}>
+              <span>{usr.firstName}</span>
+              <span>{usr.lastName}</span>
+              <span>{usr.email}x</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Card>
   );
-}
+};
 
 export default UserList;

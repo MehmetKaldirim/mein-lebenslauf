@@ -1,73 +1,100 @@
+import React, { useReducer, useEffect, useCallback, useMemo } from "react";
+
+import ProgramForm from "../../components/users/NewUserForm";
 import UserList from "../../components/users/UserList";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-const USER_PROGRAMS = [
-  {
-    id: "u1",
-    firstName: "Metho",
-    lastName: "Kaldi",
-    email: "methoKaldi@gmail.com",
-  },
-  {
-    id: "u2",
-    firstName: "Atilla",
-    lastName: "Kiyak",
-    email: "atillaKiyatYasar@gmail.com",
-  },
-];
+import UserList1 from "../../components/users/UserList1";
+import ErrorModal from "../../components/ingredients/ErrorModal";
+import SearchUser from "../../components/users/SearchUser";
+import useHttp from "../../hooks/http";
 
-function UserPage(props) {
-  const userFromStore = useSelector((store) => store.users);
-  console.log("here store users DONT YOU HERE OR SEE ME");
-  console.log(userFromStore);
-  const [users, setUsers] = useState([]);
-  let fetchUsers = [];
+const userReducer = (currentUsers, action) => {
+  switch (action.type) {
+    case "SET":
+      return action.users;
+    case "ADD":
+      return [...currentUsers, action.user];
+    case "DELETE":
+      return currentUsers.filter((usr) => usr.id !== action.id);
+    default:
+      throw new Error("Should not get there!");
+  }
+};
 
-  const fetchApi = async () => {
-    try {
-      const res = axios
-        .get("http://172.20.10.2:8081/users/api/v2")
-        .then((res) => {
-          const userList = res.data.data;
-
-          setUsers(userList);
-        });
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+const UserHomePages = () => {
+  const [users, dispatch] = useReducer(userReducer, []);
+  const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
+    useHttp();
 
   useEffect(() => {
-    fetchApi();
+    if (!isLoading && !error && reqIdentifer === "REMOVE_USER") {
+      dispatch({ type: "DELETE", id: reqExtra });
+    } else if (!isLoading && !error && reqIdentifer === "ADD_USER") {
+      dispatch({
+        type: "ADD",
+        user: { id: data.name, ...reqExtra },
+      });
+    }
+  }, [data, reqExtra, reqIdentifer, isLoading, error]);
+
+  const filteredUsersHandler = useCallback((filteredUsers) => {
+    // setUserIngredients(filteredIngredients);
+    dispatch({ type: "SET", users: filteredUsers });
   }, []);
 
-  users.forEach((el) => {
-    let object = {
-      id: el.id,
-      firstName: el.firstName,
-      lastName: el.lastName,
-      email: el.email,
-    };
-    fetchUsers.push(object);
-  });
-
-  console.log("Here fetch users ");
-  console.log(fetchUsers);
-  return <UserList users={userFromStore} />;
-}
-
-export async function getStaticProps() {
-  //fetch data from an API which code
-  //we write here never end up in client side
-  // the code here will never reach machines of our visitors
-
-  return {
-    props: {
-      users: USER_PROGRAMS,
+  const removeUserHandler = useCallback(
+    (userId) => {
+      sendRequest(
+        `http://172.20.10.2:8081/users/api/v3/${userId}`,
+        "DELETE",
+        null,
+        userId,
+        "REMOVE_USER"
+      );
+      console.log("here is id");
+      console.log(userId);
     },
-    revalidate: 10,
-  };
-}
+    [sendRequest]
+  );
 
-export default UserPage;
+  const editUserHandler = useCallback(
+    (user, userId) => {
+      sendRequest(
+        `http://172.20.10.2:8081/programs/api/v3/${userId}`,
+        "PUT",
+        user,
+        userId,
+        "REMOVE_USER"
+      );
+      console.log("here is id");
+      console.log(userId);
+    },
+    [sendRequest]
+  );
+
+  const userList1 = useMemo(() => {
+    return <UserList1 users={users} onRemoveItem={removeUserHandler} />;
+  }, [users, removeUserHandler]);
+
+  const programList = useMemo(() => {
+    return (
+      <UserList
+        users={users}
+        onRemoveItem={removeUserHandler}
+        onEditItem={editUserHandler}
+      />
+    );
+  }, [users, removeUserHandler]);
+
+  return (
+    <div className="App">
+      {error && <ErrorModal onClose={clear}>{error}</ErrorModal>}
+
+      <section>
+        <SearchUser onLoadUsers={filteredUsersHandler} />
+        {userList1}
+      </section>
+    </div>
+  );
+};
+
+export default UserHomePages;
