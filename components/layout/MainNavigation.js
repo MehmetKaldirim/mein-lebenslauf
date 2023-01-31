@@ -2,7 +2,16 @@ import Link from "next/link";
 
 import classes from "./MainNavigation.module.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
+
 function MainNavigation() {
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const dispatch = useDispatch();
+
+  const logoutHandler = () => {
+    dispatch(authActions.logout());
+  };
   return (
     <header className={classes.header}>
       <div className={classes.logo}>React LebensLauf</div>
@@ -19,6 +28,9 @@ function MainNavigation() {
           </li>
           <li>
             <Link href="/ingredients/">Ingredienst Dükkani</Link>
+          </li>
+          <li>
+            <button>Logout</button>
           </li>
         </ul>
       </nav>

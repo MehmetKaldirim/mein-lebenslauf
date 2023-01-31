@@ -1,24 +1,30 @@
-import React, { useContext } from "react";
+import { useDispatch } from "react-redux";
 
-import Card from "./UI/Card";
-import { AuthContext } from "../context/auth-context";
-import "./Auth.module.css";
+import classes from "./Auth.module.css";
+import { authActions } from "../../store/auth-slice";
+const Auth = () => {
+  const dispatch = useDispatch();
 
-const Auth = (props) => {
-  const authContext = useContext(AuthContext);
-
-  const loginHandler = () => {
-    authContext.login();
+  const loginHandler = (event) => {
+    event.preventDefault();
+    dispatch(authActions.login());
   };
-
   return (
-    <div className="auth">
-      <Card>
-        <h2>You are not authenticated!</h2>
-        <p>Please log in to continue.</p>
-        <button onClick={loginHandler}>Log In</button>
-      </Card>
-    </div>
+    <main className={classes.auth}>
+      <section>
+        <form onSubmit={loginHandler}>
+          <div className={classes.control}>
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" />
+          </div>
+          <div className={classes.control}>
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" />
+          </div>
+          <button>Login</button>
+        </form>
+      </section>
+    </main>
   );
 };
 

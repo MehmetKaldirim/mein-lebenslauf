@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 
 import Card from "../ui/Card";
 import classes from "./NewUserForm.module.css";
-import { addUser } from "./userSlice";
+import { addUser } from "./userSlice1";
 
 function NewMeetupForm(props) {
   const dispatch = useDispatch();
