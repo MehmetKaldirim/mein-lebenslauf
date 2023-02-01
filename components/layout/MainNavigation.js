@@ -15,25 +15,27 @@ function MainNavigation() {
   return (
     <header className={classes.header}>
       <div className={classes.logo}>React LebensLauf</div>
-      <nav>
-        <ul>
-          <li>
-            <Link href="/users">All Users</Link>
-          </li>
-          <li>
-            <Link href="/programs">All Programs</Link>
-          </li>
-          <li>
-            <Link href="/programs/newProgram">Add New Program</Link>
-          </li>
-          <li>
-            <Link href="/ingredients/">Ingredienst Dükkani</Link>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
-        </ul>
-      </nav>
+      {isAuth && (
+        <nav>
+          <ul>
+            <li>
+              <Link href="/users">All Users</Link>
+            </li>
+            <li>
+              <Link href="/programs">All Programs</Link>
+            </li>
+            <li>
+              <Link href="/programs/newProgram">Add New Program</Link>
+            </li>
+            <li>
+              <Link href="/ingredients/">Ingredienst Dükkani</Link>
+            </li>
+            <li>
+              <button onClick={logoutHandler}>Logout</button>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

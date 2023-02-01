@@ -9,23 +9,9 @@ import SearchUser from "../../components/users/SearchUser";
 import useHttp from "../../hooks/http";
 import { crudActions } from "../../store/crud-slice";
 
-const userReducer = (currentUsers, action) => {
-  switch (action.type) {
-    case "SET":
-      return action.users;
-    case "ADD":
-      return [...currentUsers, action.user];
-    case "DELETE":
-      return currentUsers.filter((usr) => usr.id !== action.id);
-    default:
-      throw new Error("Should not get there!");
-  }
-};
-
 const UserHomePages = () => {
   const dispatchStore = useDispatch();
-  const crud = useSelector((state) => state.crud.crud);
-  const [users, dispatch] = useReducer(userReducer, []);
+  const users = useSelector((state) => state.crud.users);
   const { isLoading, error, data, sendRequest, reqExtra, reqIdentifer, clear } =
     useHttp();
 
@@ -50,7 +36,7 @@ const UserHomePages = () => {
 
   const filteredUsersHandler = useCallback((filteredUsers) => {
     // setUserIngredients(filteredIngredients);
-    dispatch(crudActions(filteredUsers));
+    dispatch(crudActions.setUser(filteredUsers));
   }, []);
 
   const removeUserHandler = useCallback(
